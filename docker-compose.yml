@@ -1,0 +1,67 @@
+version: '2.1'
+services:
+  web:
+    image: nfqlt/apache24-fastcgi
+    ports:
+      - '8080:80'
+    links:
+      - fastcgi
+    volumes:
+      - './src:/home/project/src'
+    environment:
+      APACHE_DOCUMENTROOT: /home/project/src/public
+      NFQ_PROJECT_ROOT: /home/project/src
+      NFQ_ENABLE_APACHE_MODULES: rewrite
+      NFQ_FCGI_IDLE_TIMEOUT: 300
+
+  fastcgi:
+    image: nfqlt/php74-fpm
+    links:
+      - mysql
+    volumes:
+      - './src:/home/project/src'
+      - './conf.d/php.ini:/etc/php/7.4/fpm/php.ini:ro'
+    environment:
+      NFQ_PROJECT_ROOT: '/home/project/src'
+      NFQ_ENABLE_PHP_MODULES: 'mysqlnd curl json pdo pdo_mysql ctype tokenizer simplexml intl mbstring xml zip iconv dom bcmath fileinfo xdebug xmlwriter gd xmlreader'
+
+  dev:
+    image: nfqlt/php74-dev
+    links:
+      - mysql
+    ports:
+      - '22:22'
+    volumes:
+      - './src:/home/project/src'
+      - './conf.d/php.ini:/etc/php/7.4/cli/php.ini:ro'
+    environment:
+      NFQ_ENABLE_PHP_MODULES: 'mysqlnd curl json pdo pdo_mysql ctype tokenizer simplexml intl mbstring xml zip iconv dom bcmath fileinfo xdebug xmlwriter gd xmlreader'
+      NFQ_PROJECT_ROOT: "/home/project/src"
+
+  mysql:
+    image: 'mysql:5.7'
+    container_name: app_mysqli
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - '3306:3306'
+    volumes:
+      - './data:/var/lib/mysql'
+
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    container_name: phpmyadmin
+    depends_on:
+      - mysql
+    ports:
+      - 8081:80
+    environment:
+      PMA_HOST: mysql
+      MYSQL_ROOT_PASSWORD: root
+
+
+
+volumes: {  }
+networks: {  }
