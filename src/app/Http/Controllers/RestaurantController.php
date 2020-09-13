@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\Menu;
+use PDF;
+
 use App\Restaurant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -26,6 +28,7 @@ class RestaurantController extends Controller
         }
         return view('restaurant.index', compact('restaurants', 'menus', 'selectId'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -80,6 +83,12 @@ class RestaurantController extends Controller
     {
         return view('restaurant.show', compact('restaurant'));
 
+    }
+    public function createPDF(Restaurant $restaurant){
+
+        $data = Restaurant::all();
+        $pdf = PDF::loadView('restaurant.pdf', compact('restaurant', 'data'));
+        return $pdf->stream('invoice.pdf');
     }
 
     /**

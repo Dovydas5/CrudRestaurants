@@ -41,6 +41,10 @@
 
                                                 <form method="POST"
                                                       action="{{route('restaurant.destroy', [$restaurant])}}">
+                                                    <a class="btn btn-info" role="button"
+                                                       href="{{route('restaurant.createPDF', [$restaurant])}}"><i
+                                                            class="fa fa-file-pdf-o" aria-hidden="true"></i>
+                                                    </a>
                                                     <a class="btn btn-primary" role="button"
                                                        href="{{route('restaurant.show', [$restaurant])}}"><i
                                                             class="fa fa-eye" aria-hidden="true"></i>

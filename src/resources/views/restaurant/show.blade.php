@@ -19,7 +19,6 @@
                             <div class="card-body">Mėsos kiekis porcijoje: {{$restaurant->getMenu->meat}} g</div>
                             <div class="card-body">Patiekalo aprašymas:{!! $restaurant->getMenu->about !!}</div>
                             <a href="{{route('restaurant.index')}}" class="btn btn-primary">Atgal</a>
-
                         </div>
                         <br>
                     </div>

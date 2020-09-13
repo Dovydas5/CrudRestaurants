@@ -32,7 +32,7 @@ Route::group(['prefix' => 'menus'], function(){
     Route::post('delete/{menu}', 'MenuController@destroy')->name('menu.destroy');
     Route::get('show/{menu}', 'MenuController@show')->name('menu.show');
 });
-
+    Route::get('generate_pdf', 'RestaurantController@createPDF');
 
 Route::group(['prefix' => 'restaurants'], function(){
     Route::get('', 'RestaurantController@index')->name('restaurant.index');
@@ -42,5 +42,7 @@ Route::group(['prefix' => 'restaurants'], function(){
     Route::post('update/{restaurant}', 'RestaurantController@update')->name('restaurant.update');
     Route::post('delete/{restaurant}', 'RestaurantController@destroy')->name('restaurant.destroy');
     Route::get('show/{restaurant}', 'RestaurantController@show')->name('restaurant.show');
+    Route::get('createPDF/{restaurant}', 'RestaurantController@createPDF')->name('restaurant.createPDF');
+
 });
 });
